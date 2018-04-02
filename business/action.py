@@ -19,7 +19,7 @@ from library import unlock as ul
 class DeviceAction(object):
 
     """
-    main operation on mobile
+    main operation on mobile1
     """
 
     def __init__(self,dname):
