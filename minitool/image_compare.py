@@ -78,7 +78,7 @@ def get_new_name(img_file, compare_result,count,flag):
     return new_name
 
 
-def compare_image(orig_img, dest_img, count, new_path):
+def compare_image(orig_img, dest_img, count, ok_path, error_path):
 
     # img1=Image.open(orig_img)
     # img2=Image.open(dest_img)
@@ -104,22 +104,28 @@ def compare_image(orig_img, dest_img, count, new_path):
         ret = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         ret.wait()
         value = ret.stdout.readline()
+        if not value.isdigit():
+            value = 'error'
     except Exception,ex:
         value = ''
 
-
-    # copy original file
-    name=get_new_name(orig_img,value,count,'O')
-    dest =os.path.join(new_path, name)
-    shutil.copyfile(orig_img, dest)
-
-    # copy another file
-    name=get_new_name(dest_img,value,count,'D')
-    dest =os.path.join(new_path, name)
     try:
+        # copy original file
+        if value == '0':
+            new_path = ok_path
+        else:
+            new_path = error_path
+        name=get_new_name(orig_img,value,count,'O')
+        dest =os.path.join(new_path, name)
+        shutil.copyfile(orig_img, dest)
+
+        # copy another file
+        name=get_new_name(dest_img,value,count,'D')
+        dest =os.path.join(new_path, name)
         shutil.copyfile(dest_img, dest)
-    except Exception,ex:
+    except Exception, ex:
         pass
+
 
 def find_image(relative_path,find_basename, file_path):
 
@@ -137,7 +143,8 @@ def find_image(relative_path,find_basename, file_path):
     else:
         return ''
 
-def walk_through_images(orig_path, dest_path, compare_path):
+
+def walk_through_images(orig_path, dest_path, ok_path, error_path):
 
      count = 0
      for dirpath, dirnames, filenames in os.walk(orig_path):
@@ -152,25 +159,26 @@ def walk_through_images(orig_path, dest_path, compare_path):
 
                 if res != '':
                     count += 1
-                    compare_image(full_path,res, count, compare_path)
+                    compare_image(full_path, res, count, ok_path, error_path)
 
 
 if __name__ == '__main__':
 
-    orig = r'E:\temp1\big_1.zip'
-    dest = r'E:\temp2\big_2.zip'
-    compare_path = r'E:\img_compare4'
+    orig = r'E:\big_1'
+    dest = r'E:\big_2'
+    compare_path_ok = r'E:\img_compare4'
+    compare_path_error = r'E:\img_compare3'
 
-    file_list = []
-    file_list.append(orig)
-    file_list.append(dest)
-
-    # unzip file
-    for zippedFile in file_list:
-        toFolder = os.path.dirname(zippedFile)
-        extract_nested_zip(zippedFile, toFolder)
-
-    # compare file
-    orig_path = os.path.dirname(orig)
-    dest_path = os.path.dirname(dest)
-    walk_through_images(orig_path, dest_path, compare_path)
+    # file_list = []
+    # file_list.append(orig)
+    # file_list.append(dest)
+    #
+    # # unzip file
+    # for zippedFile in file_list:
+    #     toFolder = os.path.dirname(zippedFile)
+    #     extract_nested_zip(zippedFile, toFolder)
+    #
+    # # compare file
+    # orig_path = os.path.dirname(orig)
+    # dest_path = os.path.dirname(dest)
+    walk_through_images(orig, dest, compare_path_ok, compare_path_error)
