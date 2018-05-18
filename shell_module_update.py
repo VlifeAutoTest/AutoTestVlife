@@ -20,6 +20,7 @@ from business import querydb as tc
 from business import config_srv
 from library import logcat as dumplog
 from library import pXml
+from library import myuiautomator
 
 
 def filter_log_result(logname, findstr, pid):
@@ -149,7 +150,7 @@ def install_new_shell(shell_path, pkg_name, soft_version, uid, path_index, loop_
         threads = []
         cmd = 'install -r ' + shell_path
         install_app = threading.Thread(target=device.adb, args=(cmd,))
-        proc_process = threading.Thread(target=device.do_popup_windows, args=(5, find_text))
+        proc_process = threading.Thread(target=myuiautomator.do_popup_windows, args=(5, find_text, uid))
         threads.append(proc_process)
         threads.append(install_app)
         for t in threads:

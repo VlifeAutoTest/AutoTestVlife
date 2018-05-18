@@ -51,7 +51,7 @@ def set_device_theme(dname, theme_type, number=0):
     try:
         threads = []
         install_app = threading.Thread(target=DEVICE.start_application(), args=(activity_name,))
-        proc_process = threading.Thread(target=DEVICE.do_popup_windows, args=(5, find_text))
+        proc_process = threading.Thread(target=myuiautomator.do_popup_windows, args=(5, find_text, dname))
         threads.append(proc_process)
         threads.append(install_app)
         for t in threads:

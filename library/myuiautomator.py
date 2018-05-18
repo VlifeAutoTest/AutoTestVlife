@@ -107,7 +107,7 @@ class Event(object):
         time.sleep(0.5)
 
 
-def click_popup_window(uid,findstr):
+def click_popup_window(uid, findstr):
 
     element = Element(uid)
     event = Event(uid)
@@ -119,7 +119,14 @@ def click_popup_window(uid,findstr):
             time.sleep(1)
 
 
-def click_element_by_id(uid,id,index):
+def do_popup_windows(loop, findstr, uid):
+
+    for lp in xrange(loop):
+
+        click_popup_window(uid, findstr)
+
+
+def click_element_by_id(uid, id, index):
 
     element = Element(uid)
     event = Event(uid)
@@ -135,7 +142,7 @@ def click_element_by_id(uid,id,index):
             i += 1
 
 
-def click_element_by_class(uid,class_name,index):
+def click_element_by_class(uid, class_name, index):
 
     element = Element(uid)
     event = Event(uid)
@@ -167,7 +174,7 @@ def click_element_by_name(uid,text,index):
             i += 1
 
 
-def get_element_attribute(uid,location_info,index,attrib):
+def get_element_attribute(uid, location_info, index, attrib):
 
     element = Element(uid)
     info = location_info.split('::')

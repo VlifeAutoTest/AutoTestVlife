@@ -6,7 +6,6 @@ import platform
 import re
 import time
 import datetime
-import myuiautomator
 
 
 class AdbTools(object):
@@ -765,17 +764,6 @@ class AdbTools(object):
         :return:
         """
         return self.shell('am instrument %s' % command).read()
-
-    def do_popup_windows(self, number, find_text):
-        """
-        处理弹出窗口
-        :param number:
-        :param find_text:
-        :return:
-        """
-
-        for i in range(number):
-            myuiautomator.click_popup_window(self.__device_id, find_text)
 
     def find_file_from_appfolder(self, pkg, full_path):
 

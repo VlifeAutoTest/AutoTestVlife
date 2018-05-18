@@ -21,7 +21,7 @@ def set_magazine_app_switch(dname,action):
     sleep(5)
     # there are some popup windows when start-up app
     findstr = [u'开启', u'安装', u'允许', u'确定', u'同意']
-    DEVICE.do_popup_windows(3, findstr)
+    myuiautomator.do_popup_windows(3, findstr, dname)
     sleep(2)
 
     # access to setting screen of the third party of app
@@ -46,7 +46,7 @@ def set_magazine_app_switch(dname,action):
             if ltype.upper() == 'NAME':
                 myuiautomator.click_element_by_name(dname, location, int(index))
 
-    DEVICE.do_popup_windows(2, [u'关闭',u'打开'])
+    myuiautomator.do_popup_windows(2, [u'关闭',u'打开'], dname)
     sleep(1)
     #return back to HOME
     DEVICE.send_keyevent(4)

@@ -14,6 +14,7 @@ from business import magazine, theme, config_srv, wallpaper
 from business import querydb as tc
 from business import testdata as td
 from library import unlock as ul
+from library import myuiautomator
 
 
 class DeviceAction(object):
@@ -170,7 +171,7 @@ class DeviceAction(object):
         try:
             threads = []
             install_app = threading.Thread(target=self.third_app_operation, args=(operation,app_path))
-            proc_process = threading.Thread(target=self.device.do_popup_windows, args=(10, find_text))
+            proc_process = threading.Thread(target=myuiautomator.do_popup_windows, args=(10, find_text, self.dname))
             threads.append(proc_process)
             threads.append(install_app)
             for t in threads:
@@ -394,7 +395,7 @@ class DeviceAction(object):
             sleep(30)
 
             findstr = [u'开启', u'安装', u'允许', u'确定']
-            self.device.do_popup_windows(6,findstr)
+            myuiautomator.do_popup_windows(6, findstr, self.dname)
         else:
             logger.debug('Step: do nothing for reboot')
 
